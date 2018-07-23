@@ -3,11 +3,12 @@ function _find_npm_scripts {
     echo "package.json not found" >&2
     zle send-break
   fi
-  output=$(jq '.scripts | keys[]' package.json -r | fzf --height 30% --reverse --bind 'shift-tab:up,tab:down' --cycle)
+  output=$(jq '.scripts | keys[]' package.json -r | fzf --height 40% --reverse --bind 'shift-tab:up,tab:down' --cycle)
+  zle reset-prompt
   if [ -z "$output" ]; then
     zle accept-line
   else
-    yarn $output
+    zle -U "yarn ${output}"
   fi
 }
 
